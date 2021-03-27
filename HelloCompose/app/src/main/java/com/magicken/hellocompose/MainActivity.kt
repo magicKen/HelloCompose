@@ -5,12 +5,16 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -21,7 +25,61 @@ class MainActivity : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContent {
-      NewsStory()
+      MyApp {
+        MyScreenContent()
+      }
+    }
+  }
+
+  @Composable
+  fun MyApp(content: @Composable () -> Unit) {
+    MaterialTheme {
+      Surface(color = Color.Yellow) {
+        content()
+      }
+    }
+  }
+
+  @Composable
+  fun Greeting(name: String) {
+    Text(text = "Hello $name", modifier = Modifier.padding(24.dp))
+  }
+
+  @Composable
+  fun MyScreenContent(names: List<String> = List(100) { "Hello Android $it" }) {
+    val countState = remember { mutableStateOf(0) }
+
+    Column(modifier = Modifier.fillMaxWidth()) {
+      NameList(names = names, Modifier.weight(1f))
+      Divider(color = Color.Transparent, thickness = 33.dp)
+      Counter(
+        count = countState.value,
+        updateCount = { newCount ->
+          countState.value = newCount
+        }
+      )
+    }
+  }
+
+  @Composable
+  fun Counter(count: Int, updateCount: (Int) -> Unit) {
+    Button(
+      onClick = { updateCount(count + 1) },
+      colors = ButtonDefaults.buttonColors(
+        backgroundColor = if (count > 5) Color.Green else Color.White
+      )
+    ) {
+      Text("I've been clicked $count times")
+    }
+  }
+
+  @Composable
+  fun NameList(names: List<String>, modifier: Modifier = Modifier) {
+    LazyColumn(modifier) {
+      items(items = names) { name ->
+        Greeting(name)
+        Divider(color = Color.Black)
+      }
     }
   }
 
@@ -65,6 +123,8 @@ class MainActivity : AppCompatActivity() {
   @Preview
   @Composable
   fun PreviewGreeting() {
-    NewsStory()
+    MyApp {
+
+    }
   }
 }
