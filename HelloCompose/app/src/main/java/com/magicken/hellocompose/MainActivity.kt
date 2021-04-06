@@ -3,7 +3,10 @@ package com.magicken.hellocompose
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -20,6 +23,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 
 class MainActivity : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,7 +47,15 @@ class MainActivity : AppCompatActivity() {
 
   @Composable
   fun Greeting(name: String) {
-    Text(text = "Hello $name", modifier = Modifier.padding(24.dp))
+    var isSelected by remember { mutableStateOf(false) }
+    val backgroundColor by animateColorAsState(if (isSelected) Color.Red else Color.Transparent)
+    Text(
+      text = "Hello $name",
+      modifier = Modifier
+        .padding(24.dp)
+        .background(color = backgroundColor)
+        .clickable { isSelected = !isSelected }
+    )
   }
 
   @Composable
