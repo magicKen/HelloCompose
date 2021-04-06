@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.magicken.hellocompose.ui.theme.HelloComposeTheme
 
 class MainActivity : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
   @Composable
   fun MyApp(content: @Composable () -> Unit) {
-    MaterialTheme {
+    HelloComposeTheme {
       Surface(color = Color.Yellow) {
         content()
       }
@@ -46,7 +47,8 @@ class MainActivity : AppCompatActivity() {
       modifier = Modifier
         .padding(24.dp)
         .background(color = backgroundColor)
-        .clickable { isSelected = !isSelected }
+        .clickable { isSelected = !isSelected },
+      style = MaterialTheme.typography.h1
     )
   }
 
