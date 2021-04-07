@@ -7,7 +7,6 @@ package com.magicken.layouts.ui
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -116,7 +115,48 @@ val topics = listOf(
 @Composable
 fun StaggeredGridPreview() {
   LayoutsTheme {
-    Row(modifier = Modifier.horizontalScroll(rememberScrollState())) {
+    Row(
+      modifier = Modifier.background(color = Color.LightGray)
+        .horizontalScroll(rememberScrollState())
+    ) {
+      StaggeredGrid {
+        for (topic in topics) {
+          Chip(modifier = Modifier.padding(8.dp), text = topic)
+        }
+      }
+    }
+  }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun StaggeredGridPaddingFirstPreview() {
+  LayoutsTheme {
+    Row(
+      modifier = Modifier.background(color = Color.LightGray)
+        .padding(16.dp)
+        .size(200.dp)
+        .horizontalScroll(rememberScrollState())
+    ) {
+      StaggeredGrid {
+        for (topic in topics) {
+          Chip(modifier = Modifier.padding(8.dp), text = topic)
+        }
+      }
+    }
+  }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun StaggeredGridSizeFirstPreview() {
+  LayoutsTheme {
+    Row(
+      modifier = Modifier.background(color = Color.LightGray)
+        .size(200.dp)
+        .padding(16.dp)
+        .horizontalScroll(rememberScrollState())
+    ) {
       StaggeredGrid {
         for (topic in topics) {
           Chip(modifier = Modifier.padding(8.dp), text = topic)
