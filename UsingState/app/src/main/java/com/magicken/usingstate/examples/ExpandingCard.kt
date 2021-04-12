@@ -51,65 +51,65 @@ import com.magicken.usingstate.R
 
 @Composable
 fun ExpandingCard(title: String, body: String, modifier: Modifier = Modifier) {
-    var expanded by rememberSaveable { mutableStateOf(false) }
-    ExpandingCard(
-        title = title,
-        body = body,
-        expanded = expanded,
-        onExpand = { expanded = true },
-        onCollapse = { expanded = false },
-        modifier = modifier
-    )
+  var expanded by rememberSaveable { mutableStateOf(false) }
+  ExpandingCard(
+    title = title,
+    body = body,
+    expanded = expanded,
+    onExpand = { expanded = true },
+    onCollapse = { expanded = false },
+    modifier = modifier
+  )
 }
 
 @Composable
 fun ExpandingCard(
-    title: String,
-    body: String,
-    expanded: Boolean,
-    onExpand: () -> Unit,
-    onCollapse: () -> Unit,
-    modifier: Modifier = Modifier
+  title: String,
+  body: String,
+  expanded: Boolean,
+  onExpand: () -> Unit,
+  onCollapse: () -> Unit,
+  modifier: Modifier = Modifier
 ) {
-    Card(modifier) {
-        Column(
-            Modifier
-                .width(280.dp)
-                .animateContentSize() // automatically animate size when it changes
-                .padding(top = 16.dp, start = 16.dp, end = 16.dp)
-        ) {
-            Text(title)
-            if (expanded) {
-                Spacer(Modifier.height(8.dp))
-                Text(body)
-                IconButton(onClick = onCollapse, Modifier.fillMaxWidth()) {
-                    Icon(
-                        imageVector = Icons.Default.ExpandLess,
-                        contentDescription = stringResource(id = R.string.cd_collapse)
-                    )
-                }
-            } else {
-                IconButton(onClick = onExpand, Modifier.fillMaxWidth()) {
-                    Icon(
-                        imageVector = Icons.Default.ExpandMore,
-                        contentDescription = stringResource(id = R.string.cd_expand)
-                    )
-                }
-            }
+  Card(modifier) {
+    Column(
+        Modifier
+            .width(280.dp)
+            .animateContentSize() // automatically animate size when it changes
+            .padding(top = 16.dp, start = 16.dp, end = 16.dp)
+    ) {
+      Text(title)
+      if (expanded) {
+        Spacer(Modifier.height(8.dp))
+        Text(body)
+        IconButton(onClick = onCollapse, Modifier.fillMaxWidth()) {
+          Icon(
+            imageVector = Icons.Default.ExpandLess,
+            contentDescription = stringResource(id = R.string.cd_collapse)
+          )
         }
+      } else {
+        IconButton(onClick = onExpand, Modifier.fillMaxWidth()) {
+          Icon(
+            imageVector = Icons.Default.ExpandMore,
+            contentDescription = stringResource(id = R.string.cd_expand)
+          )
+        }
+      }
     }
+  }
 }
 
 @Preview
 @Composable
 fun PreviewExpandingCard() {
-    Box(Modifier.fillMaxSize()) {
-        ExpandingCard(
-            title = "Title text",
-            body =
-            """Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eleifend, augue quis fermentum feugiat, neque lacus elementum velit, ut molestie quam ligula at magna. Etiam dictum in nulla a posuere. Integer nisl tortor, mollis id hendrerit quis, tincidunt eget dolor. Nulla tempor leo tellus, ac aliquam nunc ornare sed. Aliquam ut odio rutrum, convallis mi vel, fringilla nibh. Vivamus vel mi rutrum, vehicula metus nec, efficitur risus. Phasellus vel blandit libero. Proin leo mauris, iaculis a eleifend vitae, malesuada a dolor. Suspendisse euismod bibendum sapien tincidunt dapibus. Quisque elit dui, dictum in sem eget, ultricies condimentum ante. Praesent elementum tincidunt mi, at vulputate turpis volutpat non.
+  Box(Modifier.fillMaxSize()) {
+    ExpandingCard(
+      title = "Title text",
+      body =
+      """Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eleifend, augue quis fermentum feugiat, neque lacus elementum velit, ut molestie quam ligula at magna. Etiam dictum in nulla a posuere. Integer nisl tortor, mollis id hendrerit quis, tincidunt eget dolor. Nulla tempor leo tellus, ac aliquam nunc ornare sed. Aliquam ut odio rutrum, convallis mi vel, fringilla nibh. Vivamus vel mi rutrum, vehicula metus nec, efficitur risus. Phasellus vel blandit libero. Proin leo mauris, iaculis a eleifend vitae, malesuada a dolor. Suspendisse euismod bibendum sapien tincidunt dapibus. Quisque elit dui, dictum in sem eget, ultricies condimentum ante. Praesent elementum tincidunt mi, at vulputate turpis volutpat non.
 """,
-            modifier = Modifier.align(Alignment.Center)
-        )
-    }
+      modifier = Modifier.align(Alignment.Center)
+    )
+  }
 }

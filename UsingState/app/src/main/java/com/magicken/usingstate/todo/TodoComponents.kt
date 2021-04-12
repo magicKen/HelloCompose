@@ -80,20 +80,20 @@ fun AnimatedIconRow(
   visible: Boolean = true,
   initialVisibility: Boolean = false
 ) {
-    // remember these specs so they don't restart if recomposing during the animation
-    // this is required since TweenSpec restarts on interruption
-    val enter = remember { fadeIn(animationSpec = TweenSpec(300, easing = FastOutLinearInEasing)) }
-    val exit = remember { fadeOut(animationSpec = TweenSpec(100, easing = FastOutSlowInEasing)) }
-    Box(modifier.defaultMinSize(minHeight = 16.dp)) {
-        AnimatedVisibility(
-            visible = visible,
-            initiallyVisible = initialVisibility,
-            enter = enter,
-            exit = exit,
-        ) {
-            IconRow(icon, onIconChange)
-        }
+  // remember these specs so they don't restart if recomposing during the animation
+  // this is required since TweenSpec restarts on interruption
+  val enter = remember { fadeIn(animationSpec = TweenSpec(300, easing = FastOutLinearInEasing)) }
+  val exit = remember { fadeOut(animationSpec = TweenSpec(100, easing = FastOutSlowInEasing)) }
+  Box(modifier.defaultMinSize(minHeight = 16.dp)) {
+    AnimatedVisibility(
+      visible = visible,
+      initiallyVisible = initialVisibility,
+      enter = enter,
+      exit = exit,
+    ) {
+      IconRow(icon, onIconChange)
     }
+  }
 }
 
 /**
@@ -109,16 +109,16 @@ fun IconRow(
   onIconChange: (TodoIcon) -> Unit,
   modifier: Modifier = Modifier
 ) {
-    Row(modifier) {
-        for (todoIcon in TodoIcon.values()) {
-            SelectableIconButton(
-                icon = todoIcon.imageVector,
-                iconContentDescription = todoIcon.contentDescription,
-                onIconSelected = { onIconChange(todoIcon) },
-                isSelected = todoIcon == icon
-            )
-        }
+  Row(modifier) {
+    for (todoIcon in TodoIcon.values()) {
+      SelectableIconButton(
+        icon = todoIcon.imageVector,
+        iconContentDescription = todoIcon.contentDescription,
+        onIconSelected = { onIconChange(todoIcon) },
+        isSelected = todoIcon == icon
+      )
     }
+  }
 }
 
 /**
@@ -131,41 +131,41 @@ fun IconRow(
  */
 @Composable
 private fun SelectableIconButton(
-    icon: ImageVector,
-    @StringRes iconContentDescription: Int,
-    onIconSelected: () -> Unit,
-    isSelected: Boolean,
-    modifier: Modifier = Modifier
+  icon: ImageVector,
+  @StringRes iconContentDescription: Int,
+  onIconSelected: () -> Unit,
+  isSelected: Boolean,
+  modifier: Modifier = Modifier
 ) {
-    val tint = if (isSelected) {
-        MaterialTheme.colors.primary
-    } else {
-        MaterialTheme.colors.onSurface.copy(alpha = 0.6f)
+  val tint = if (isSelected) {
+    MaterialTheme.colors.primary
+  } else {
+    MaterialTheme.colors.onSurface.copy(alpha = 0.6f)
+  }
+  TextButton(
+    onClick = { onIconSelected() },
+    shape = CircleShape,
+    modifier = modifier
+  ) {
+    Column {
+      Icon(
+        imageVector = icon,
+        tint = tint,
+        contentDescription = stringResource(id = iconContentDescription)
+      )
+      if (isSelected) {
+        Box(
+            Modifier
+                .padding(top = 3.dp)
+                .width(icon.defaultWidth)
+                .height(1.dp)
+                .background(tint)
+        )
+      } else {
+        Spacer(modifier = Modifier.height(4.dp))
+      }
     }
-    TextButton(
-        onClick = { onIconSelected() },
-        shape = CircleShape,
-        modifier = modifier
-    ) {
-        Column {
-            Icon(
-                imageVector = icon,
-                tint = tint,
-                contentDescription = stringResource(id = iconContentDescription)
-            )
-            if (isSelected) {
-                Box(
-                    Modifier
-                        .padding(top = 3.dp)
-                        .width(icon.defaultWidth)
-                        .height(1.dp)
-                        .background(tint)
-                )
-            } else {
-                Spacer(modifier = Modifier.height(4.dp))
-            }
-        }
-    }
+  }
 }
 
 /**
@@ -178,21 +178,21 @@ private fun SelectableIconButton(
  */
 @Composable
 fun TodoItemInputBackground(
-    elevate: Boolean,
-    modifier: Modifier = Modifier,
-    content: @Composable RowScope.() -> Unit
+  elevate: Boolean,
+  modifier: Modifier = Modifier,
+  content: @Composable RowScope.() -> Unit
 ) {
-    val animatedElevation by animateDpAsState(if (elevate) 1.dp else 0.dp, TweenSpec(500))
-    Surface(
-        color = MaterialTheme.colors.onSurface.copy(alpha = 0.05f),
-        elevation = animatedElevation,
-        shape = RectangleShape,
-    ) {
-        Row(
-            modifier = modifier.animateContentSize(animationSpec = TweenSpec(300)),
-            content = content
-        )
-    }
+  val animatedElevation by animateDpAsState(if (elevate) 1.dp else 0.dp, TweenSpec(500))
+  Surface(
+    color = MaterialTheme.colors.onSurface.copy(alpha = 0.05f),
+    elevation = animatedElevation,
+    shape = RectangleShape,
+  ) {
+    Row(
+      modifier = modifier.animateContentSize(animationSpec = TweenSpec(300)),
+      content = content
+    )
+  }
 }
 
 /**
@@ -206,24 +206,24 @@ fun TodoItemInputBackground(
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun TodoInputText(
-    text: String,
-    onTextChange: (String) -> Unit,
-    modifier: Modifier = Modifier,
-    onImeAction: () -> Unit = {}
+  text: String,
+  onTextChange: (String) -> Unit,
+  modifier: Modifier = Modifier,
+  onImeAction: () -> Unit = {}
 ) {
-    val keyboardController = LocalSoftwareKeyboardController.current
-    TextField(
-        value = text,
-        onValueChange = onTextChange,
-        colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.Transparent),
-        maxLines = 1,
-        keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
-        keyboardActions = KeyboardActions(onDone = {
-            onImeAction()
-            keyboardController?.hide()
-        }),
-        modifier = modifier
-    )
+  val keyboardController = LocalSoftwareKeyboardController.current
+  TextField(
+    value = text,
+    onValueChange = onTextChange,
+    colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.Transparent),
+    maxLines = 1,
+    keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
+    keyboardActions = KeyboardActions(onDone = {
+      onImeAction()
+      keyboardController?.hide()
+    }),
+    modifier = modifier
+  )
 }
 
 /**
@@ -236,19 +236,19 @@ fun TodoInputText(
  */
 @Composable
 fun TodoEditButton(
-    onClick: () -> Unit,
-    text: String,
-    modifier: Modifier = Modifier,
-    enabled: Boolean = true
+  onClick: () -> Unit,
+  text: String,
+  modifier: Modifier = Modifier,
+  enabled: Boolean = true
 ) {
-    TextButton(
-        onClick = onClick,
-        shape = CircleShape,
-        enabled = enabled,
-        modifier = modifier
-    ) {
-        Text(text)
-    }
+  TextButton(
+    onClick = onClick,
+    shape = CircleShape,
+    enabled = enabled,
+    modifier = modifier
+  ) {
+    Text(text)
+  }
 }
 
 @Preview
