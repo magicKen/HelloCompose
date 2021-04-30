@@ -6,27 +6,46 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.magicken.hellocompose.ui.theme.HelloComposeTheme
 
 class MainActivity : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+
+    var flag by mutableStateOf(1)
+    val user = User("magicKen")
+    val otherUser = User("magicKen")
+    var heavyUser = user
     setContent {
-      MyApp {
+      /*MyApp {
         MyScreenContent()
+      }*/
+      Column {
+        Text(flag.toString(), Modifier.clickable {
+          flag++
+          heavyUser = otherUser
+        }, fontSize = 40.sp)
+        Heavy(heavyUser)
       }
     }
+  }
+
+  @Composable
+  fun Heavy(user: User) {
+    println("好重啊！")
+    Text("Maybe ${user.name}")
   }
 
   @Composable
@@ -98,3 +117,6 @@ class MainActivity : AppCompatActivity() {
     }
   }
 }
+
+@Stable
+data class User(var name: String)
